@@ -4,22 +4,31 @@ function Player (player) {
   this.pieceLocations = [];
 }
 
+var playerOne = new Player("player1");
+var playerTwo = new Player("player2");
+var playerCpu = new Player("playerCpu");
 
 
+function changeImage(id){
+  debugger;
+  var location = id+"pic";
+  document.getElementById(location).src = 'img/x.png';
+}
 
-
+function getId(id) {
+  var myId = id;
+  changeImage(id);
+}
 
 
 
 
 // user interface
 $(document).ready(function(){
-  $("#game-mode").submit(event(){
+  $("#game-mode").submit(function(event){
     event.preventDefault;
     var gameMode = $("input:radio[name=mode]:checked").val();
-    var playerOne = new Player("player1");
-    var playerTwo = new Player("player2");
-    var playerCpu = new Player("playerCpu");
+
 
   });
 
