@@ -10,3 +10,7 @@ img {
   width: 100%;
 
 }
+
+.win {
+  background-image: url(../img/dancing.gif);
+}
