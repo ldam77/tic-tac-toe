@@ -9,10 +9,12 @@ var playerTwo = new Player("Player TWO");
 var playerCpu = new Player("Computer");
 var counter = 0;
 const imgX = 'img/x.png';
-const imgO = 'img/check.png';
+const imgO = 'img/1.png';
+const winningImg = 'img/dancing.gif';
 const winCondition = [["1a", "1b", "1c"], ["2a", "2b", "2c"], ["3a", "3b", "3c"], ["1a", "2a", "3a"], ["1b", "2b", "3b"], ["1c", "2c", "3c"], ["1a", "2b", "3c"], ["1c", "2b", "3a"]];
 var playArea = ['1a', '2a', '3a', '1b', '2b', '3b', '1c', '2c', '3c'];
 var gameOver = false;
+
 function changeImage(id, img){
   var location = id+"pic";
   document.getElementById(location).src = img;
@@ -50,19 +52,22 @@ function playGame(id) {
         };
       });
       if(p1Count === 3){
-        $("#winner").text(playerOne.name);
+        $("#winner").text(playerOne.name + " Won!!!");
         gameOver = true;
         flashScreen();
-        $('body').toggleClass('win');
+        changeImage('winning-', winningImg);
+        $('html, body').animate({scrollTop:$(document).height()}, 'fast');
       } else if (p2Count === 3){
-        $("#winner").text(playerTwo.name);
+        $("#winner").text(playerTwo.name + " Won!!!");
         gameOver = true;
         flashScreen();
+        changeImage('winning-', winningImg);
+        $('html, body').animate({scrollTop:$(document).height()}, 'fast');
       };
     });
   };
   if(!gameOver && counter === 9){
-    $("#winner").text("Nobody");
+    $("#winner").text("DRAW");
   };
 }
 

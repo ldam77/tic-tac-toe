@@ -1,16 +1,43 @@
-/*body {
-  background-color: pink;
+h1 {
+  font-size: 5em;
+  font-family: 'Abril Fatface', cursive;
+}
+
+body {
+  background-image: url(../img/bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+  font-family: 'Abril Fatface', cursive;
+}
+
+@media only screen and (max-width: 850px) {
+    body {
+        background-image: url(../img/bg-vertical.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}
+
+/*.win {
+  background-image: url(../img/dancing.gif);
+  background-size: auto;
+  background-repeat: repeat;
 }*/
+
+#row-1 {
+  margin-top: 5%;
+}
 
 .col-md-4 {
   border: 5px solid black;
 }
 
 img {
-  width: 100%;
+  width: 85%;
 
 }
 
-.win {
-  background-image: url(../img/dancing.gif);
+#output-area h3 {
+  font-size: 4em;
 }
