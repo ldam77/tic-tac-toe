@@ -6,7 +6,7 @@ function Player (player) {
 
 var playerOne = new Player("Player ONE");
 var playerTwo = new Player("Player TWO");
-var playerCpu = new Player("Computer");
+// var playerCpu = new Player("Computer");
 var counter = 0;
 const imgX = 'img/x.png';
 const imgO = 'img/1.png';
@@ -27,15 +27,17 @@ function flashScreen(){
 function playGame(id) {
 
   if(playArea.indexOf(id) >= 0){
-    counter +=1;
+
     playArea.splice(playArea.indexOf(id), 1);
 
     if (counter%2){
       changeImage(id,imgX);
       playerOne.pieceLocations.push(id);
+      $("#winner").text(playerTwo.name + " Turn");
     } else {
       changeImage(id,imgO);
       playerTwo.pieceLocations.push(id);
+      $("#winner").text(playerOne.name + " Turn");
     };
 
     var p1Count = 0;
@@ -65,8 +67,9 @@ function playGame(id) {
         $('html, body').animate({scrollTop:$(document).height()}, 'fast');
       };
     });
+    counter +=1;
   };
-  if(!gameOver && counter === 9){
+  if(!gameOver && playArea.length === 0){
     $("#winner").text("DRAW");
   };
 }
@@ -75,20 +78,26 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max)+1);
 }
 
-// Player.prototype.playGame = function (){
-  // var imgX = 'img/x.png';
-  // var imgO = 'img/check.png';
-//   for (i=1, 1 < 10, i++) {
-//
-//   }
-// };
+
 
 // user interface
 $(document).ready(function(){
   $("#game-mode").submit(function(event){
     event.preventDefault;
     var gameMode = $("input:radio[name=mode]:checked").val();
+    if(gameMode === "pvc"){
+      playerTwo.name = "Computer";
+    };
 
-
+    counter = getRandomInt(2);
+    if(counter === 1){
+      $("#winner").text(playerOne.name + " Turn");
+    } else {
+      $("#winner").text(playerTwo.name + " Turn");
+      if(playerTwo.name === "Computer"){
+        // do computer ak
+      };
+    };
+    return false; // to prevent resetting document after submit so the turn message stay
   });
 });
