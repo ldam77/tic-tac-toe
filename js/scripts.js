@@ -6,7 +6,6 @@ function Player (player) {
 
 var playerOne = new Player("Player ONE");
 var playerTwo = new Player("Player TWO");
-// var playerCpu = new Player("Computer");
 var counter = 0;
 const imgX = 'img/x.png';
 const imgO = 'img/1.png';
@@ -27,24 +26,39 @@ function flashScreen(){
 function playGame(id) {
 
   if(playArea.indexOf(id) >= 0){
-
     playArea.splice(playArea.indexOf(id), 1);
 
+    // if(playerTwo.name === "Computer"){
+    //   playerTwoTurn(id);
+    // }
     if (counter%2){
-      changeImage(id,imgX);
-      playerOne.pieceLocations.push(id);
-      $("#winner").text(playerTwo.name + " Turn");
-      if(playerTwo.name === "computer"){
-        computerAI();
-      };
+      playerOneTurn(id);
       } else {
-      changeImage(id,imgO);
-      playerTwo.pieceLocations.push(id);
-      $("#winner").text(playerOne.name + " Turn");
+      playerTwoTurn(id);
     };
     checkWinCondition();
     counter += 1;
+    if(playerTwo.name === "Computer" && counter%2 === 0){
+      computerAI();
+    };
   };
+};
+
+function playerOneTurn(id) {
+  changeImage(id,imgX);
+  playerOne.pieceLocations.push(id);
+  $("#winner").text(playerTwo.name + " Turn");
+};
+
+function playerTwoTurn(id) {
+  changeImage(id,imgO);
+  playerTwo.pieceLocations.push(id);
+  $("#winner").text(playerOne.name + " Turn");
+};
+
+function computerAI() {
+  var id = playArea[getRandomInt(playArea.length)-1];
+  playGame(id);
 };
 
 function checkWinCondition() {
@@ -85,10 +99,6 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max)+1);
 };
 
-function computerAI() {
-  playGame(playArea[getRandomInt(playArea.length)-1]);
-}
-
 function firstTurn() {
   counter = getRandomInt(2);
   if(counter === 1){
@@ -96,7 +106,7 @@ function firstTurn() {
   } else {
     $("#winner").text(playerTwo.name + " Turn");
     if(playerTwo.name === "Computer"){
-      setTimeout(playGame(playArea[getRandomInt(playArea.length)-1]), 2000);
+      computerAI();
     };
   };
 }
