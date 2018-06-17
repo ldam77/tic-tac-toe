@@ -10,6 +10,7 @@ var counter = 0;
 const imgX = 'img/x.png';
 const imgO = 'img/1.png';
 const winningImg = 'img/dancing.gif';
+const computerWinImg = 'img/terminator.gif'
 const winCondition = [["1a", "1b", "1c"], ["2a", "2b", "2c"], ["3a", "3b", "3c"], ["1a", "2a", "3a"], ["1b", "2b", "3b"], ["1c", "2c", "3c"], ["1a", "2b", "3c"], ["1c", "2b", "3a"]];
 var playArea = ['1a', '2a', '3a', '1b', '2b', '3b', '1c', '2c', '3c'];
 var gameOver = false;
@@ -115,7 +116,11 @@ function checkWinCondition() {
       $("#winner").text(playerTwo.name + " Won!!!");
       gameOver = true;
       flashScreen();
-      changeImage('winning-', winningImg);
+      if(playerTwo.name === "Computer"){
+        changeImage('winning-', computerWinImg);
+      } else {
+        changeImage('winning-', winningImg);
+      };
       $('html, body').animate({scrollTop:$(document).height()}, 'fast');
     };
   });
