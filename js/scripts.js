@@ -24,7 +24,6 @@ function flashScreen(){
 };
 
 function playGame(id) {
-
   if(playArea.indexOf(id) >= 0){
     playArea.splice(playArea.indexOf(id), 1);
 
@@ -38,7 +37,7 @@ function playGame(id) {
     };
     checkWinCondition();
     counter += 1;
-    if(playerTwo.name === "Computer" && counter%2 === 0){
+    if(playerTwo.name === "Computer" && counter%2 === 0 && !gameOver){
       computerAI();
     };
   };
@@ -58,6 +57,37 @@ function playerTwoTurn(id) {
 
 function computerAI() {
   var id = playArea[getRandomInt(playArea.length)-1];
+  var priority = 0;
+  var p1RemainingMoves = [];
+  var p2RemainingMoves = [];
+debugger;
+  for(var i = 0; i < winCondition.length; i++){
+    p1RemainingMoves = winCondition[i].map(function(loc){
+      return loc;
+    });
+    p2RemainingMoves = winCondition[i].map(function(loc){
+      return loc;
+    });
+    winCondition[i].forEach(function(location){
+      if (playerOne.pieceLocations.indexOf(location) > -1){
+        p1RemainingMoves.splice(p1RemainingMoves.indexOf(location), 1);
+      };
+      if (playerTwo.pieceLocations.indexOf(location) > -1){
+        p2RemainingMoves.splice(p2RemainingMoves.indexOf(location), 1);
+      };
+    });
+    if(p2RemainingMoves.length === 1 && playArea.indexOf(p2RemainingMoves[0]) >= 0){
+      id = p2RemainingMoves[0];
+      i = winCondition.length;
+    } else if(p1RemainingMoves.length === 1 && playArea.indexOf(p1RemainingMoves[0]) >= 0){
+      id = p1RemainingMoves[0];
+      priority = 1;
+    } else if(p2RemainingMoves.length === 2 && p1RemainingMoves.length === 3 && priority !== 1){
+      id = p2RemainingMoves[getRandomInt(2)-1];
+    };
+
+  };
+
   playGame(id);
 };
 
