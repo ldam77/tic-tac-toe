@@ -2,7 +2,7 @@
 function Player (player) {
   this.name = player;
   this.pieceLocations = [];
-}
+};
 
 var playerOne = new Player("Player ONE");
 var playerTwo = new Player("Player TWO");
@@ -18,11 +18,11 @@ var gameOver = false;
 function changeImage(id, img){
   var location = id+"pic";
   document.getElementById(location).src = img;
-}
+};
 
 function flashScreen(){
   $('.row').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn();
-}
+};
 
 function playGame(id) {
 
@@ -34,51 +34,72 @@ function playGame(id) {
       changeImage(id,imgX);
       playerOne.pieceLocations.push(id);
       $("#winner").text(playerTwo.name + " Turn");
-    } else {
+      if(playerTwo.name === "computer"){
+        computerAI();
+      };
+      } else {
       changeImage(id,imgO);
       playerTwo.pieceLocations.push(id);
       $("#winner").text(playerOne.name + " Turn");
     };
+    checkWinCondition();
+    counter += 1;
+  };
+};
 
-    var p1Count = 0;
-    var p2Count = 0;
-    winCondition.forEach(function(winningArray){
-      p1Count = 0;
-      p2Count = 0;
-      winningArray.forEach(function(location){
-        if (playerOne.pieceLocations.indexOf(location) > -1){
-          p1Count += 1;
-        };
-        if (playerTwo.pieceLocations.indexOf(location) > -1){
-          p2Count += 1;
-        };
-      });
-      if(p1Count === 3){
-        $("#winner").text(playerOne.name + " Won!!!");
-        gameOver = true;
-        flashScreen();
-        changeImage('winning-', winningImg);
-        $('html, body').animate({scrollTop:$(document).height()}, 'fast');
-      } else if (p2Count === 3){
-        $("#winner").text(playerTwo.name + " Won!!!");
-        gameOver = true;
-        flashScreen();
-        changeImage('winning-', winningImg);
-        $('html, body').animate({scrollTop:$(document).height()}, 'fast');
+function checkWinCondition() {
+  var p1Count = 0;
+  var p2Count = 0;
+  winCondition.forEach(function(winningArray){
+    p1Count = 0;
+    p2Count = 0;
+    winningArray.forEach(function(location){
+      if (playerOne.pieceLocations.indexOf(location) > -1){
+        p1Count += 1;
+      };
+      if (playerTwo.pieceLocations.indexOf(location) > -1){
+        p2Count += 1;
       };
     });
-    counter +=1;
-  };
+    if(p1Count === 3){
+      $("#winner").text(playerOne.name + " Won!!!");
+      gameOver = true;
+      flashScreen();
+      changeImage('winning-', winningImg);
+      $('html, body').animate({scrollTop:$(document).height()}, 'fast');
+    } else if (p2Count === 3){
+      $("#winner").text(playerTwo.name + " Won!!!");
+      gameOver = true;
+      flashScreen();
+      changeImage('winning-', winningImg);
+      $('html, body').animate({scrollTop:$(document).height()}, 'fast');
+    };
+  });
+
   if(!gameOver && playArea.length === 0){
     $("#winner").text("DRAW");
   };
-}
+};
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max)+1);
+};
+
+function computerAI() {
+  playGame(playArea[getRandomInt(playArea.length)-1]);
 }
 
-
+function firstTurn() {
+  counter = getRandomInt(2);
+  if(counter === 1){
+    $("#winner").text(playerOne.name + " Turn");
+  } else {
+    $("#winner").text(playerTwo.name + " Turn");
+    if(playerTwo.name === "Computer"){
+      setTimeout(playGame(playArea[getRandomInt(playArea.length)-1]), 2000);
+    };
+  };
+}
 
 // user interface
 $(document).ready(function(){
@@ -88,16 +109,7 @@ $(document).ready(function(){
     if(gameMode === "pvc"){
       playerTwo.name = "Computer";
     };
-
-    counter = getRandomInt(2);
-    if(counter === 1){
-      $("#winner").text(playerOne.name + " Turn");
-    } else {
-      $("#winner").text(playerTwo.name + " Turn");
-      if(playerTwo.name === "Computer"){
-        // do computer ak
-      };
-    };
+    firstTurn();
     return false; // to prevent resetting document after submit so the turn message stay
   });
 });
